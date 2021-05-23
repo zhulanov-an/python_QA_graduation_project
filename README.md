@@ -10,6 +10,11 @@
 - test_main_page.py - проверка отображения элементов посадочной страницы
 - test_product_page.py - проверка отображения элементов страницы с продуктом
 
+## Запуск Jenkins
+1. Выполнить установку java
+2. Выполнить загрузку пакета в формате war с ресурса `https://www.jenkins.io/download/`
+3. Выполнить `java -jar jenkins.war --httpPort=8888`
+
 ## Локальный запуск opencart
 1. Выполнить загрузку образа `docker pull bitnami/opencart`
 
