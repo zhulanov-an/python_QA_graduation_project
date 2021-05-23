@@ -1,0 +1,2 @@
+from .LoginPageLocators import LoginPageLocators
+from .MainPageLocators import MainPageLocators

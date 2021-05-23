@@ -1,0 +1,4 @@
+allure-pytest==2.8.36
+pytest==6.2.2
+pytest-xdist==2.2.1
+selenium==3.141.0
