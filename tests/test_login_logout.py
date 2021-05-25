@@ -25,7 +25,7 @@ def test_correct_login(login_page, right_user):
     user, password = right_user
     admin_page = login_page.login(user, password)
     assert "common/logout" in admin_page.logout_link.get_attribute("href")
-    assert admin_page.profile.text == "demo demo"
+    assert admin_page.profile.text == "John Doe"
 
 
 def test_incorrect_login(login_page, wrong_user):
