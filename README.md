@@ -27,9 +27,9 @@
 
 4. Для остановки выполнить `docker stop $(docker ps -q)`
 
-*-В случае возникновения ошибок при запуске и т.п. попробовать
+В случае возникновения ошибок при запуске и т.п. попробовать
 выполнить:
-`docker prune system --volumes`
+`docker system prune` и `docker volume prune`
 
 ## Локальный запуск selenoid
 1. Установить Docker
