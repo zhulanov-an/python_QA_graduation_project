@@ -7,10 +7,6 @@ from selenium import webdriver
 
 LOG_FILE = './logs/selenium.log'
 
-if os.path.exists(LOG_FILE):
-    os.remove(LOG_FILE)
-    print("Logs removed")
-
 logging.basicConfig(level=logging.DEBUG,
                     filename=LOG_FILE,
                     format='%(asctime)s.%(msecs)03d | %(levelname)s | %(message)s',
@@ -112,13 +108,9 @@ def base_url(request):
     target = request.config.option.target
     return f"http://{target}"
 
+
 @pytest.fixture
 def browser(request):
-    # browser = request.config.getoption("--browser")
-    # bversion = request.config.getoption("--bversion")
-    # executor = request.config.getoption("--executor")
-    # pexec = request.config.getoption("--pexec")
-
     browser = request.config.option.browser
     bversion = request.config.option.bversion
     executor = request.config.option.executor
