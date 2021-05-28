@@ -1,7 +1,6 @@
 import allure
 import pytest
 import logging
-import os
 from selenium.webdriver.support.events import EventFiringWebDriver, AbstractEventListener
 from selenium import webdriver
 
