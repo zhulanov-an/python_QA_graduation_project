@@ -10,3 +10,4 @@ class RegisterPageLocators:
     SUBSCRIBE_NO_RADIO = {'css': '#content > form > fieldset:nth-child(3) > div > div > label:nth-child(2) > input[type=radio]'}
     PRIVACY_POLICY_CHECKBOX = {'css': '#content > form > div > div > input[type=checkbox]:nth-child(2)'}
     CONTINUE_BUTTON = {'css': '#content > form > div > div > input.btn.btn-primary'}
+    CONTINUE_AFTER_REGISTER_BUTTON = {'css': '#content > div > div > a'}
