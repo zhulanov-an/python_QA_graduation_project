@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.remote.webelement import WebElement
 from faker import Faker
 from pages.BasePage import BasePage
@@ -77,6 +78,7 @@ class RegisterPage(BasePage):
             self.checkbox_privacy_policy.click()
         self.button_continue.click()
 
+    @allure.step('Регистрация клиента')
     def successful_register(self,
                             first_name,
                             lastname,
@@ -85,6 +87,7 @@ class RegisterPage(BasePage):
                             password):
         self._register(first_name, lastname, email, phone, password, password)
 
+    @allure.step("Успешная регистрация клиента с рандомными значениями")
     def succesful_random_data_register(self):
         fake = Faker()
         first_name = fake.first_name()

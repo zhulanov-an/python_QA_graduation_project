@@ -1,3 +1,5 @@
+import allure
+
 from pages.BasePage import BasePage
 from pages.locators.AccountLoginPageLocators import AccountLoginPageLocators as locator
 
@@ -33,6 +35,7 @@ class AccountLoginPage(BasePage):
     def text_header_of_block_returned_customer(self):
         return self._get_element_text(locator.HEADER_RETURNING_CUSTOMER)
 
+    @allure.step("авторизация зарегистрированного клиента")
     def login_returned_customer(self, name, password):
         self.field_username_of_returned_customer.send_keys(name)
         self.field_password_of_returned_customer.send_keys(password)

@@ -1,7 +1,9 @@
+import allure
 import pytest
 from pages.LoginPage import LoginPage
 
 
+@allure.step('получение страницы авторизации')
 @pytest.fixture
 def login_page(browser, base_url):
     url = f"{base_url}/admin/"
@@ -10,6 +12,7 @@ def login_page(browser, base_url):
     return page
 
 
+@allure.title('тест проверки логина')
 def test_correct_login(login_page, admin):
     """проверка корректного логина"""
     user, password = admin
@@ -18,6 +21,7 @@ def test_correct_login(login_page, admin):
     assert admin_page.profile.text == "John Doe"
 
 
+@allure.title('тест проверки некорректного логина')
 def test_incorrect_login(login_page, wrong_user):
     """проверка некорректного логина"""
     user, password = wrong_user

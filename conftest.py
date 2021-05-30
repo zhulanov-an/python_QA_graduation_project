@@ -6,7 +6,7 @@ from selenium import webdriver
 
 LOG_FILE = './logs/selenium.log'
 
-logging.basicConfig(level=logging.DEBUG,
+logging.basicConfig(level=logging.CRITICAL,
                     filename=LOG_FILE,
                     format='%(asctime)s.%(msecs)03d | %(levelname)s | %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S'
@@ -14,13 +14,23 @@ logging.basicConfig(level=logging.DEBUG,
 print('logging configured')
 
 
-class CustomListener(AbstractEventListener):
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+# https://github.com/pytest-dev/pytest/issues/230#issuecomment-402580536
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    rep = outcome.get_result()
+    if rep.outcome != 'passed':
+        item.status = 'failed'
+    else:
+        item.status = 'passed'
 
+
+class CustomListener(AbstractEventListener):
     @allure.step
     def before_navigate_to(self, url, driver):
         super().before_navigate_to(url, driver)
 
-    @allure.step
+    @allure.step("Выполнен переход на страницу {url}")
     def after_navigate_to(self, url, driver):
         super().after_navigate_to(url, driver)
 
@@ -84,11 +94,11 @@ class CustomListener(AbstractEventListener):
     def before_quit(self, driver):
         super().before_quit(driver)
 
-    @allure.step
+    @allure.step("браузер закрыт")
     def after_quit(self, driver):
         super().after_quit(driver)
 
-    @allure.step
+    @allure.step("произошла ошибка {exception}")
     def on_exception(self, exception, driver):
         super().on_exception(exception, driver)
 
@@ -105,10 +115,12 @@ def pytest_addoption(parser):
 
 @pytest.fixture
 def base_url(request):
-    target = request.config.option.target
-    return f"http://{target}"
+    target = f"http://{request.config.option.target}"
+    with allure.step(f'базовый адрес "{target}"'):
+        return target
 
 
+@allure.step('конфигурация браузера')
 @pytest.fixture
 def browser(request):
     browser = request.config.option.browser
@@ -116,6 +128,18 @@ def browser(request):
     executor = request.config.option.executor
     pexec = request.config.option.pexec
     local = request.config.option.pexec
+
+    def close_browser():
+        test_name = request.node.name
+        if request.node.status == 'failed':
+            allure.attach(
+                name=driver.session_id,
+                body=driver.get_screenshot_as_png(),
+                attachment_type=allure.attachment_type.PNG
+            )
+        driver.quit()
+        logger.info(f'browser for {test_name} closed')
+        logger.info(f'test {test_name} ended')
 
     if local:
         if browser == "chrome":
@@ -129,7 +153,9 @@ def browser(request):
         else:
             raise NotImplementedError
 
-        request.addfinalizer(driver.quit)
+        logger = logging.getLogger(f'Logger_of_{browser}_{driver.capabilities["browserVersion"]}')
+
+        request.addfinalizer(close_browser)
         driver.maximize_window()
         driver.implicitly_wait(5)
         return driver
@@ -154,12 +180,6 @@ def browser(request):
 
     logger = logging.getLogger(f'Logger_of_{browser}_{driver.capabilities["browserVersion"]}')
 
-    def close_browser():
-        if driver is not None:
-            driver.quit()
-            logger.info(f'browser for {test_name} closed')
-        logger.info(f'test {test_name} ended')
-
     request.addfinalizer(close_browser)
 
     driver.maximize_window()
@@ -168,11 +188,13 @@ def browser(request):
     return driver
 
 
+@allure.step('получение данных администратора opencart')
 @pytest.fixture
 def admin():
     return "user", "bitnami"
 
 
+@allure.step('получение данных некорректного клиента')
 @pytest.fixture
 def wrong_user():
     return "wrong", "wrong"
