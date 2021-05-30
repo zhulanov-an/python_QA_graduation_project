@@ -43,7 +43,7 @@ class BasePage:
                 selector = selector['xpath']
         elements = self._driver.find_elements(by, selector)
         with allure.step(f'с селектором "{by}" и локатором "{selector}"'):
-            with allure.step(f"найдены элементы '{elements}'"):
+            with allure.step(f"найдено элементов '{len(elements)}'"):
                 return elements
 
     def __element(self, selector: dict, index: int, link_text: str = None):
