@@ -10,19 +10,9 @@ def login_page(browser, base_url):
     return page
 
 
-@pytest.fixture
-def right_user():
-    return "user", "bitnami"
-
-
-@pytest.fixture
-def wrong_user():
-    return "wrong", "wrong"
-
-
-def test_correct_login(login_page, right_user):
+def test_correct_login(login_page, admin):
     """проверка корректного логина"""
-    user, password = right_user
+    user, password = admin
     admin_page = login_page.login(user, password)
     assert "common/logout" in admin_page.logout_link.get_attribute("href")
     assert admin_page.profile.text == "John Doe"

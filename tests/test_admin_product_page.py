@@ -10,11 +10,11 @@ def right_user():
 
 
 @pytest.fixture
-def product_page(base_url, right_user, browser):
+def product_page(base_url, admin, browser):
     url = f"{base_url}/admin/"
     login_page = LoginPage(browser, url)
     login_page.open()
-    login_page.login(*right_user)
+    login_page.login(*admin)
     admin_page = AdminPage(browser, None)
     admin_page.move_to_item_in_left_menu_by_name('Catalog > Products')
     return admin_page

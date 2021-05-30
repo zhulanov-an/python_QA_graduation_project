@@ -147,3 +147,13 @@ def browser(request):
 
     logger.info(f'browser for {test_name} opened')
     return driver
+
+
+@pytest.fixture
+def admin():
+    return "user", "bitnami"
+
+
+@pytest.fixture
+def wrong_user():
+    return "wrong", "wrong"
