@@ -95,11 +95,12 @@ class CustomListener(AbstractEventListener):
 
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", choices=["chrome", "firefox", "opera"],
-                     help="browser", default='firefox')
+                     help="browser", default='chrome')
     parser.addoption("--bversion", action="store", help="version of browser", default='85.0')
     parser.addoption("--target", action="store", help="address of testing resource", default="192.168.1.104")
     parser.addoption("--executor", action="store", help="address of executor", default="192.168.1.104")
     parser.addoption("--pexec", action="store", help="port of executor", default="4444")
+    parser.addoption("--local", action="store_true")
 
 
 @pytest.fixture
@@ -114,6 +115,24 @@ def browser(request):
     bversion = request.config.option.bversion
     executor = request.config.option.executor
     pexec = request.config.option.pexec
+    local = request.config.option.pexec
+
+    if local:
+        if browser == "chrome":
+            options = webdriver.ChromeOptions()
+            options.add_argument("--ignore-certificate-errors")
+            driver = webdriver.Chrome(options=options)
+        elif browser == "firefox":
+            options = webdriver.FirefoxOptions()
+            options.accept_insecure_certs = True
+            driver = webdriver.Firefox(options=options)
+        else:
+            raise NotImplementedError
+
+        request.addfinalizer(driver.quit)
+        driver.maximize_window()
+        driver.implicitly_wait(5)
+        return driver
 
     caps = {
         "browserName": browser,
