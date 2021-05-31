@@ -30,7 +30,7 @@ class CustomListener(AbstractEventListener):
     def before_navigate_to(self, url, driver):
         super().before_navigate_to(url, driver)
 
-    @allure.step("Выполнен переход на страницу {url}")
+    @allure.step
     def after_navigate_to(self, url, driver):
         super().after_navigate_to(url, driver)
 
@@ -105,7 +105,7 @@ class CustomListener(AbstractEventListener):
 
 def pytest_addoption(parser):
     parser.addoption("--browser", action="store", choices=["chrome", "firefox", "opera"],
-                     help="browser", default='chrome')
+                     help="browser", default='firefox')
     parser.addoption("--bversion", action="store", help="version of browser", default='85.0')
     parser.addoption("--target", action="store", help="address of testing resource", default="192.168.1.104")
     parser.addoption("--executor", action="store", help="address of executor", default="192.168.1.104")
@@ -120,14 +120,14 @@ def base_url(request):
         return target
 
 
-@allure.step('конфигурация браузера')
+# @allure.step('конфигурация браузера')
 @pytest.fixture
 def browser(request):
     browser = request.config.option.browser
     bversion = request.config.option.bversion
     executor = request.config.option.executor
     pexec = request.config.option.pexec
-    local = request.config.option.pexec
+    local = request.config.option.local
 
     def close_browser():
         test_name = request.node.name
