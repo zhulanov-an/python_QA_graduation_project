@@ -26,79 +26,67 @@ def pytest_runtest_makereport(item, call):
 
 
 class CustomListener(AbstractEventListener):
-    @allure.step
     def before_navigate_to(self, url, driver):
         super().before_navigate_to(url, driver)
 
-    @allure.step
+    @allure.step('выполнен переход на страницу')
     def after_navigate_to(self, url, driver):
         super().after_navigate_to(url, driver)
 
-    @allure.step
     def before_navigate_back(self, driver):
         super().before_navigate_back(driver)
 
-    @allure.step
     def after_navigate_back(self, driver):
         super().after_navigate_back(driver)
 
-    @allure.step
     def before_navigate_forward(self, driver):
         super().before_navigate_forward(driver)
 
-    @allure.step
     def after_navigate_forward(self, driver):
         super().after_navigate_forward(driver)
 
-    @allure.step
     def before_find(self, by, value, driver):
         super().before_find(by, value, driver)
 
-    @allure.step
+    @allure.step('найден элемент')
     def after_find(self, by, value, driver):
         super().after_find(by, value, driver)
 
-    @allure.step
     def before_click(self, element, driver):
         super().before_click(element, driver)
 
-    @allure.step
+    @allure.step('нажат элемент')
     def after_click(self, element, driver):
         super().after_click(element, driver)
 
-    @allure.step
     def before_change_value_of(self, element, driver):
         super().before_change_value_of(element, driver)
 
-    @allure.step
+    @allure.step('изменено значение элемента')
     def after_change_value_of(self, element, driver):
         super().after_change_value_of(element, driver)
 
-    @allure.step
     def before_execute_script(self, script, driver):
         super().before_execute_script(script, driver)
 
-    @allure.step
     def after_execute_script(self, script, driver):
         super().after_execute_script(script, driver)
 
-    @allure.step
     def before_close(self, driver):
         super().before_close(driver)
 
-    @allure.step
+    @allure.step('выполнено закрытие страницы')
     def after_close(self, driver):
         super().after_close(driver)
 
-    @allure.step
     def before_quit(self, driver):
         super().before_quit(driver)
 
-    @allure.step("браузер закрыт")
+    @allure.step("выполнено закрытие браузера")
     def after_quit(self, driver):
         super().after_quit(driver)
 
-    @allure.step("произошла ошибка {exception}")
+    @allure.step("произошла ошибка")
     def on_exception(self, exception, driver):
         super().on_exception(exception, driver)
 
