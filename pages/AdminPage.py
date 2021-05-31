@@ -1,3 +1,5 @@
+import allure
+
 from pages.BasePage import BasePage
 from pages.locators.AdminPageLocators import AdminPageLocators as locator
 
@@ -27,9 +29,11 @@ class AdminPage(BasePage):
     def product_table_headers(self):
         return self._get_elements(locator.COLUMNS_OF_HEAD_TABLE)
 
+    @allure.step('закрытие сессии администратора')
     def logout(self):
         self.logout_link.click()
 
+    @allure.step("переход по меню в админке в раздел")
     def move_to_item_in_left_menu_by_name(self, path_menu: str):
         raw_items = path_menu.split('>')
         for item in list(map(str.strip, raw_items)):
