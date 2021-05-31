@@ -1,3 +1,4 @@
+import allure
 import pytest
 from pages.LoginPage import LoginPage
 
@@ -15,11 +16,13 @@ def login_page(browser, base_url):
     return page
 
 
+@allure.title('тест проверки заголовка браузера')
 def test_browser_title_is_administration(login_page):
     """проверка заголовка страницы Administration в браузере"""
     assert "Administration" in login_page.title
 
 
+@allure.title('тест проверки текста заголовка в блоке авторизации')
 def test_text_of_forms_header(login_page):
     """проверка отображения заголовка с текстом о вводе логина и пароля"""
     header = login_page.header
@@ -27,6 +30,7 @@ def test_text_of_forms_header(login_page):
     assert header.text == "Please enter your login details."
 
 
+@allure.title('тест проверки поля ввода логина')
 def test_field_username(login_page):
     """проверка отображения поля ввода имени, пароля пользователя и кнопки авторизации"""
     field_username = login_page.input_username
@@ -34,6 +38,7 @@ def test_field_username(login_page):
     assert field_username.get_attribute("placeholder") == "Username"
 
 
+@allure.title('тест проверки поля ввода пароля')
 def test_field_password(login_page):
     """проверка отображения поля ввода пароля пользователя"""
     field_password = login_page.input_password
@@ -41,6 +46,7 @@ def test_field_password(login_page):
     assert field_password.get_attribute("placeholder") == "Password"
 
 
+@allure.title('тест проверки кнопки авторизации')
 def test_button_login(login_page):
     """проверка отображения кнопки авторизации пользователя"""
     button_login = login_page.button_login
@@ -48,9 +54,9 @@ def test_button_login(login_page):
     assert button_login.text == "Login"
 
 
+@allure.title('тест проверки ссылки восстановления доступа')
 def test_forgotten_password_link(login_page):
     """проверка отображения ссылки восстановления пароля"""
     forgotten_password_link = login_page.forgotten_password_link
     assert forgotten_password_link.is_displayed()
     assert forgotten_password_link.text == "Forgotten Password"
-
