@@ -1,3 +1,4 @@
+import allure
 import pytest
 from pages.ProductPage import ProductPage
 
@@ -10,16 +11,19 @@ def product_page(browser, base_url):
     return page
 
 
+@allure.title('тест проверки заголовка браузера')
 def test_browser_title_of_product(product_page):
     """проверка заголовка браузера на странице продукта"""
     assert product_page.title == "Samsung Galaxy Tab 10.1"
 
 
+@allure.title('тест отображения заголовка товара в странице продукта')
 def test_header_of_page(product_page):
     """проверка отображения заголовка товара в странице продукта"""
     assert product_page.text_header_product == "Samsung Galaxy Tab 10.1"
 
 
+@allure.title('тест отображения кода, премии, доступного количества продукта')
 @pytest.mark.parametrize("name, idx", [("Product Code:", 0), ("Reward Points:", 1), ("Availability:", 2)])
 def test_features_of_product(product_page, name, idx):
     """проверка кода, премии, доступного количества продукта"""
@@ -27,11 +31,13 @@ def test_features_of_product(product_page, name, idx):
     assert name in features[idx].text
 
 
+@allure.title('тест расширения картинки продукта')
 def test_ext_of_main_image(product_page):
     """проверка изображения продукта"""
     assert product_page.image_of_product.get_attribute("src").endswith(".jpg")
 
 
+@allure.title('тест цены продукта и валюты')
 def test_price_of_product(product_page):
     """проверка цены продукта и валюты"""
     price = product_page.price_of_product
