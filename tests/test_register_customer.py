@@ -3,7 +3,6 @@ from pages.RegisterPage import RegisterPage
 import allure
 
 
-
 @pytest.fixture
 def register_page(browser, base_url):
     with allure.step('получение страницы регистрации клиента'):
